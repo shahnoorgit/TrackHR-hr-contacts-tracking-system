@@ -5,3 +5,38 @@
 body {
   @apply bg-slate-900;
 }
+
+.btn {
+  padding: 0.5rem 1rem;
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #3572c6;
+}
+
+.btn-dropdown {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  color: #333;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-dropdown:last-child {
+  border-bottom: none;
+}
+
+.btn-dropdown:hover {
+  background-color: #f3f4f6;
+}
