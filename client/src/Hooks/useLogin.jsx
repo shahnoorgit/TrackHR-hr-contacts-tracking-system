@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
-import toast from "react-hot-toast";
 import { AuthContext } from "../Context/AuthContext";
+import toast from "react-hot-toast";
 
-const useSignup = () => {
+const useLogin = () => {
   const { setAuth } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const signup = async ({ username, password, confirmPassword }) => {
+  const login = async ({ username, password }) => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8080/api/user/sign-up", {
+      const res = await fetch("http://localhost:8080/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -16,7 +16,6 @@ const useSignup = () => {
         body: JSON.stringify({
           username,
           password,
-          confirmPassword,
         }),
       });
       const data = await res.json();
@@ -24,16 +23,16 @@ const useSignup = () => {
         toast.error(data.error);
         throw new Error(data.error);
       }
-      console.log(data);
-      setAuth(data);
       localStorage.setItem("UserTrack", JSON.stringify(data));
-      toast.success(" user signed up successfully");
+      setAuth(data);
+      toast.success("User Logged in successfully");
     } catch (error) {
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
-  return { loading, signup };
+  return { loading, login };
 };
 
-export default useSignup;
+export default useLogin;

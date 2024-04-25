@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { IoIosLogOut, IoMdLogOut } from "react-icons/io";
 import { VscSignIn } from "react-icons/vsc";
+import { AuthContext } from "../Context/AuthContext";
+import useLogout from "../Hooks/useLogout";
 
 const Navbar = () => {
-  const [isUser, setisUser] = useState(false);
+  const { Auth } = useContext(AuthContext);
+  console.log(Auth);
+  const { loading, logout } = useLogout();
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <nav className="flex justify-between p-5 items-center w-full h-20 bg-gray-700 border-blue-700 shadow-2xl border">
       <a href="/" className="font-bold text-white text-2xl">
@@ -17,7 +24,7 @@ const Navbar = () => {
         My Report
       </a>
       <div className="flex gap-2 items-center cursor-pointer">
-        {!isUser && (
+        {Auth === null && (
           <a href="/login">
             <div className=" flex justify-center items-center gap-2 cursor-pointer">
               <p className=" text-white font-semibold text-xl">Login</p>
@@ -25,7 +32,7 @@ const Navbar = () => {
             </div>
           </a>
         )}
-        {isUser && (
+        {Auth && (
           <>
             <img
               src="./demoUser.png"
@@ -33,8 +40,11 @@ const Navbar = () => {
               width={40}
               height={40}
             />
-            <p className=" text-xl flex gap-1 items-center text-white max-sm:text-lg">
-              logout
+            <p
+              onClick={() => handleLogout()}
+              className=" text-xl flex gap-1 items-center text-white max-sm:text-lg"
+            >
+              {loading ? "loging out" : "logout"}
               <IoMdLogOut />
             </p>
           </>

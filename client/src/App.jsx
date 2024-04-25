@@ -17,13 +17,19 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={!isAuth ? <Navigate to="/login" /> : <Home />}
+        />
         <Route path="/my-report" element={<Report />} />
         <Route
           path="/sign-up"
           element={isAuth ? <Navigate to="/" /> : <SignUp />}
         />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={isAuth ? <Navigate to="/" /> : <Login />}
+        />
       </Routes>
       <Toaster />
     </>
