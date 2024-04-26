@@ -1,34 +1,36 @@
 import { useState } from "react";
 import { FaCopy, FaRegCircleUser } from "react-icons/fa6";
-import { FaRegCopy } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
+import { parseDate } from "../utils/DateFormatter";
 
-const Contactlist = () => {
+const Contactlist = ({ contact, handleDelete }) => {
   const [action, setAction] = useState("pending");
-  console.log(action);
+  console.log(contact);
   const changeAction = () => {};
+  const date = parseDate(contact?.contactDate);
   return (
-    <div className=" max-sm:mx-2 max-sm:flex-col max-sm:items-center flex gap-1 justify-between items-start border p-3 rounded-lg bg-gray-700 mt-2">
+    <div className=" max-sm:mx-2 max-sm:flex-col max-sm:items-start flex gap-1 justify-between items-start border p-3 rounded-lg bg-gray-700 mt-2">
       <div className=" flex justify-center items-center gap-1">
         <FaRegCircleUser className="text-white" />
-        <h2 className="text-bold text-white">Riya chakruvatri</h2>
+        <h2 className="text-bold text-white">{contact?.name}</h2>
       </div>
       <div className="flex justify-center items-center gap-1">
-        <h2 className="text-bold text-white">+91720804035</h2>
+        <h2 className="text-bold text-white">{contact?.phoneNumber}</h2>
         <FaCopy className="text-white" />
       </div>
       <div className="flex justify-center items-center gap-1">
-        <h2 className="text-bold text-white">Riya.hr@vincesolutions.com</h2>
+        <h2 className="text-bold text-white">{contact?.email}</h2>
         <FaCopy className="text-white" />
       </div>
       <div className="flex justify-center items-center gap-1">
-        <h2 className="text-bold text-white">MERN intern</h2>
+        <h2 className="text-bold text-white">{contact?.role}</h2>
       </div>
       <div className="flex justify-center items-center gap-1">
-        <h2 className="text-bold text-white">22/11/2002</h2>
+        <h2 className="text-bold text-white">{date}</h2>
       </div>
       <div className="flex justify-center items-center gap-1">
         <select
-          value={action}
+          value={contact?.action}
           onChange={(e) => setAction(e.target.value)}
           className={` ${
             (action == "pending" && "bg-red-400") ||
@@ -44,6 +46,12 @@ const Contactlist = () => {
           <option value="call_not_picked">Call Not Picked</option>
           <option value="failed">Failed</option>
         </select>
+      </div>
+      <div className="flex justify-center items-center gap-1">
+        <MdDelete
+          onClick={() => handleDelete(contact?._id)}
+          className="text-red-600 text-2xl cursor-pointer"
+        />
       </div>
     </div>
   );

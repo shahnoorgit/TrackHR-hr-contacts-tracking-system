@@ -1,23 +1,53 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import SortOptions from "../component/Sortby";
 import Contactlist from "../component/Contactlist";
+import useMyContacts from "../Hooks/useMyContacts";
+import Spinner from "../component/Spinner";
+import useCreateContacts from "../Hooks/useCreateContacts";
+import useDelete from "../Hooks/useDelete";
 
 const Home = () => {
   const { Auth } = useContext(AuthContext);
-  const contactsNo = 0;
-  Auth?.contacts.map((contact) => (contactsNo += 1));
+  const { loading, fetchMyContacts, myContacts } = useMyContacts();
+  const { createContact, load } = useCreateContacts();
+  const { deleted, deleteContact } = useDelete();
+  let contactsNo = 0;
+  if (Auth && Auth.contacts && Array.isArray(Auth.contacts)) {
+    Auth.contacts.forEach((contact) => (contactsNo += 1));
+    console.log("Number of contacts:", Auth?.contacts);
+  } else {
+    console.error(
+      "Error: Auth.contacts is not properly defined or not an array."
+    );
+  }
   const [FormData, setFormData] = useState({
     name: "",
     phoneNumber: "",
     email: "",
     role: "",
     action: "pending",
+    user_id: Auth?._id,
   });
   const handleAdd = (e) => {
     e.preventDefault();
-    console.log(FormData);
+    createContact(FormData);
+    setFormData({
+      name: "",
+      phoneNumber: "",
+      email: "",
+      role: "",
+      action: "pending",
+      user_id: Auth?._id,
+    });
   };
+  const handleDelete = (id) => {
+    deleteContact(id);
+  };
+  useEffect(() => {
+    fetchMyContacts(Auth?._id);
+  }, [load, deleted]);
+  const changeAction = (action) => {};
   return (
     <div className=" flex flex-col justify-center items-start">
       <div className=" flex flex-col gap-2 mt-5 ml-5">
@@ -34,6 +64,7 @@ const Home = () => {
         >
           <input
             value={FormData.name}
+            required
             onChange={(e) => setFormData({ ...FormData, name: e.target.value })}
             type="text"
             placeholder="Enter Name"
@@ -41,6 +72,7 @@ const Home = () => {
           />
           <input
             value={FormData.phoneNumber}
+            required
             onChange={(e) =>
               setFormData({ ...FormData, phoneNumber: e.target.value })
             }
@@ -50,6 +82,7 @@ const Home = () => {
           />
           <input
             value={FormData.email}
+            required
             onChange={(e) =>
               setFormData({ ...FormData, email: e.target.value })
             }
@@ -59,6 +92,7 @@ const Home = () => {
           />
           <input
             value={FormData.role}
+            required
             onChange={(e) => setFormData({ ...FormData, role: e.target.value })}
             type="text"
             placeholder="Applying For"
@@ -84,68 +118,20 @@ const Home = () => {
             <span className="font-bold text-white">Add</span>
           </button>
         </form>
-        <div className=" flex flex-col gap-1">
-          {" "}
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />
-          <Contactlist />{" "}
-        </div>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <div className=" mb-5 flex flex-col gap-1">
+            {myContacts.map((contact) => (
+              <Contactlist
+                key={contact._id}
+                contact={contact}
+                changeAction={changeAction}
+                handleDelete={handleDelete}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
