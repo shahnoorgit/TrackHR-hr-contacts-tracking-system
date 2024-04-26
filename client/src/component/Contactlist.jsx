@@ -2,10 +2,19 @@ import { useState } from "react";
 import { FaCopy, FaRegCircleUser } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { parseDate } from "../utils/DateFormatter";
+import toast from "react-hot-toast";
 
 const Contactlist = ({ contact, handleDelete }) => {
   const [action, setAction] = useState("pending");
-  console.log(contact);
+  const copy = (action) => {
+    if (action === "phoneNumber") {
+      navigator.clipboard.writeText(contact?.phoneNumber);
+      toast.success(" Phonenumber copied");
+    } else if (action === "email") {
+      navigator.clipboard.writeText(contact?.email);
+      toast.success(" Email copied");
+    }
+  };
   const changeAction = () => {};
   const date = parseDate(contact?.contactDate);
   return (
@@ -16,11 +25,17 @@ const Contactlist = ({ contact, handleDelete }) => {
       </div>
       <div className="flex justify-center items-center gap-1">
         <h2 className="text-bold text-white">{contact?.phoneNumber}</h2>
-        <FaCopy className="text-white" />
+        <FaCopy
+          onClick={() => copy("phoneNumber")}
+          className="text-white cursor-pointer"
+        />
       </div>
       <div className="flex justify-center items-center gap-1">
         <h2 className="text-bold text-white">{contact?.email}</h2>
-        <FaCopy className="text-white" />
+        <FaCopy
+          onClick={() => copy("email")}
+          className="text-white cursor-pointer"
+        />
       </div>
       <div className="flex justify-center items-center gap-1">
         <h2 className="text-bold text-white">{contact?.role}</h2>
