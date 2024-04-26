@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import SortOptions from "../component/Sortby";
+import Contactlist from "../component/Contactlist";
 
 const Home = () => {
   const { Auth } = useContext(AuthContext);
@@ -83,6 +84,68 @@ const Home = () => {
             <span className="font-bold text-white">Add</span>
           </button>
         </form>
+        <div className=" flex flex-col gap-1">
+          {" "}
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />
+          <Contactlist />{" "}
+        </div>
       </div>
     </div>
   );
