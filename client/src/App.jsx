@@ -8,10 +8,10 @@ import toast, { Toaster } from "react-hot-toast";
 import { useContext } from "react";
 import { AuthContext } from "./Context/AuthContext";
 import { Navigate } from "react-router-dom";
+import AllContacts from "./pages/AllContacts";
 
 function App() {
   const { isAuth, Auth } = useContext(AuthContext);
-  console.log(isAuth);
   return (
     <>
       <Navbar />
@@ -21,7 +21,14 @@ function App() {
           path="/"
           element={!isAuth ? <Navigate to="/login" /> : <Home />}
         />
-        <Route path="/my-report" element={<Report />} />
+        <Route
+          path="/all-contacts"
+          element={!isAuth ? <Navigate to="/login" /> : <AllContacts />}
+        />
+        <Route
+          path="/my-report"
+          element={!isAuth ? <Navigate to="/login" /> : <Report />}
+        />
         <Route
           path="/sign-up"
           element={isAuth ? <Navigate to="/" /> : <SignUp />}

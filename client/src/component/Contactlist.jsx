@@ -4,8 +4,9 @@ import { MdDelete } from "react-icons/md";
 import { parseDate } from "../utils/DateFormatter";
 import toast from "react-hot-toast";
 
-const Contactlist = ({ contact, handleDelete }) => {
-  const [action, setAction] = useState("pending");
+const Contactlist = ({ contact, handleDelete, changeAction }) => {
+  const [action, setAction] = useState(contact?.action);
+
   const copy = (action) => {
     if (action === "phoneNumber") {
       navigator.clipboard.writeText(contact?.phoneNumber);
@@ -15,7 +16,6 @@ const Contactlist = ({ contact, handleDelete }) => {
       toast.success(" Email copied");
     }
   };
-  const changeAction = () => {};
   const date = parseDate(contact?.contactDate);
   return (
     <div className=" max-sm:mx-2 max-sm:flex-col max-sm:items-start flex gap-1 justify-between items-start border p-3 rounded-lg bg-gray-700 mt-2">
@@ -46,7 +46,11 @@ const Contactlist = ({ contact, handleDelete }) => {
       <div className="flex justify-center items-center gap-1">
         <select
           value={contact?.action}
-          onChange={(e) => setAction(e.target.value)}
+          onChange={(e) => {
+            const action = e.target.value;
+            changeAction(action, contact?._id);
+            setAction(e.target.value);
+          }}
           className={` ${
             (action == "pending" && "bg-red-400") ||
             (action == "done" && "bg-green-500") ||

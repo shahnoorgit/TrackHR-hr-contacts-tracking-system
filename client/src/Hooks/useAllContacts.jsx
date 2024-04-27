@@ -1,14 +1,14 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const useMyContacts = () => {
+const useAllContacts = () => {
   const [loading, setLoading] = useState();
   const [myContacts, setMyContacts] = useState([]);
-  const fetchMyContacts = async (_id) => {
+  const fetchAllContacts = async (_id) => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:8080/api/user/contacts/mycontact/perweek/${_id}`
+        `http://localhost:8080/api/user/contacts/mycontact/${_id}`
       );
       const data = await res.json();
       if (data.error) {
@@ -16,14 +16,13 @@ const useMyContacts = () => {
         throw new Error(data.error);
       }
       setMyContacts(data);
-      return data;
     } catch (error) {
       toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
-  return { loading, fetchMyContacts, myContacts, setMyContacts };
+  return { loading, fetchAllContacts, myContacts };
 };
 
-export default useMyContacts;
+export default useAllContacts;

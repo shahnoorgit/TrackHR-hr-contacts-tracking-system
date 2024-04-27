@@ -1,26 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
-import SortOptions from "../component/Sortby";
 import Contactlist from "../component/Contactlist";
 import useMyContacts from "../Hooks/useMyContacts";
 import Spinner from "../component/Spinner";
 import useCreateContacts from "../Hooks/useCreateContacts";
 import useDelete from "../Hooks/useDelete";
+import useUpdateAction from "../Hooks/useUpdateAction";
 
 const Home = () => {
   const { Auth } = useContext(AuthContext);
-  const { loading, fetchMyContacts, myContacts } = useMyContacts();
+  const { loading, fetchMyContacts, myContacts, setMyContacts } =
+    useMyContacts();
   const { createContact, load } = useCreateContacts();
   const { deleted, deleteContact } = useDelete();
-  let contactsNo = 0;
-  if (Auth && Auth.contacts && Array.isArray(Auth.contacts)) {
-    Auth.contacts.forEach((contact) => (contactsNo += 1));
-    console.log("Number of contacts:", Auth?.contacts);
-  } else {
-    console.error(
-      "Error: Auth.contacts is not properly defined or not an array."
-    );
-  }
+  const { updating, updateAction, update } = useUpdateAction();
+
+  const [useToFilter, setFilter] = useState(myContacts);
   const [FormData, setFormData] = useState({
     name: "",
     phoneNumber: "",
@@ -29,6 +24,7 @@ const Home = () => {
     action: "pending",
     user_id: Auth?._id,
   });
+
   const handleAdd = (e) => {
     e.preventDefault();
     createContact(FormData);
@@ -41,21 +37,115 @@ const Home = () => {
       user_id: Auth?._id,
     });
   };
+  const [sorting, setSorting] = useState(false);
+  const [showSortOptions, setShowSortOptions] = useState(false);
+
+  const toggleSortOptions = () => {
+    setShowSortOptions(!showSortOptions);
+  };
+
   const handleDelete = (id) => {
     deleteContact(id);
   };
+
+  const changeAction = (action, contact_id) => {
+    updateAction(contact_id, action);
+  };
+
   useEffect(() => {
-    fetchMyContacts(Auth?._id);
-  }, [load, deleted]);
-  const changeAction = (action) => {};
+    fetchMyContacts(Auth?._id).then((data) => setFilter(data));
+  }, [load, deleted, update]);
+
+  const sort = (e) => {
+    if (e.target.value === "all") {
+      setFilter(myContacts);
+    } else {
+      const filtered = myContacts.filter(
+        (contact) => contact.action == e.target.value
+      );
+      setFilter(filtered);
+    }
+  };
+  console.log(useToFilter);
   return (
     <div className=" flex flex-col justify-center items-start">
       <div className=" flex flex-col gap-2 mt-5 ml-5">
         <h1 className=" font-bold text-white">{Auth?.username}</h1>
         <p className=" font-semibold text-white">
-          Your current contacts are {contactsNo}
+          You will only be shown contacts that you need to take action of this
+          week to see all contacts <br /> click here
         </p>
-        <SortOptions />
+        <a
+          href="/all-contacts"
+          type="submit"
+          className="text-white bg-blue-700 shadow-md rounded-md w-full sm:w-[100px] px-2 py-1"
+        >
+          {" "}
+          See all contacts
+        </a>
+        <div className="relative">
+          <button className="btn" onClick={toggleSortOptions}>
+            Sort By
+            <svg
+              className="h-4 w-4 ml-1 inline-block"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8.707 7.707a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 11H17a1 1 0 100-2H6.414l2.293-2.293z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+          {showSortOptions && (
+            <div className="absolute w-25 top-full left-0 mt-1  bg-white border rounded-md shadow-lg z-10">
+              <button
+                value="done"
+                onClick={(e) => sort(e)}
+                className="btn-dropdown"
+              >
+                Contacted
+              </button>
+              <button
+                value="pending"
+                onClick={(e) => sort(e)}
+                className="btn-dropdown"
+              >
+                Pending
+              </button>
+              <button
+                value="successful"
+                onClick={(e) => sort(e)}
+                className="btn-dropdown"
+              >
+                Successful
+              </button>
+              <button
+                value="call_not_picked"
+                onClick={(e) => sort(e)}
+                className="btn-dropdown"
+              >
+                Call Not Picked
+              </button>
+              <button
+                value="failed"
+                onClick={(e) => sort(e)}
+                className="btn-dropdown"
+              >
+                Failed
+              </button>
+              <button
+                value="all"
+                className="btn-dropdown"
+                onClick={(e) => sort(e)}
+              >
+                All
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       <div className="flex flex-col gap-1 mx-auto mt-5">
         <form
@@ -122,8 +212,9 @@ const Home = () => {
           <Spinner />
         ) : (
           <div className=" mb-5 flex flex-col gap-1">
-            {myContacts.map((contact) => (
+            {useToFilter.map((contact) => (
               <Contactlist
+                actionLoading={updating}
                 key={contact._id}
                 contact={contact}
                 changeAction={changeAction}
