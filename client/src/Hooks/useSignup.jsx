@@ -27,7 +27,6 @@ const useSignup = () => {
         toast.error(data.error);
         throw new Error(data.error);
       }
-      console.log(data);
       setAuth(data);
       localStorage.setItem("UserTrack", JSON.stringify(data));
       toast.success(" user signed up successfully");

@@ -10,7 +10,6 @@ const AllContacts = () => {
   useEffect(() => {
     fetchAllContacts(Auth?._id);
   }, []);
-  console.log(myContacts);
   return (
     <>
       <div className="flex flex-col justify-start items-center">

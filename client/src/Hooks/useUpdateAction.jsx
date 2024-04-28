@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const useUpdateAction = () => {
   const [update, reload] = useState(false);
@@ -6,7 +7,6 @@ const useUpdateAction = () => {
   const updateAction = async (contact_id, action) => {
     setloading(true);
     try {
-      console.log(contact_id);
       const res = await fetch(
         "https://trackhr-backend.onrender.com/api/user/contacts/edit",
         {
@@ -21,7 +21,7 @@ const useUpdateAction = () => {
       reload(!update);
       return data;
     } catch (err) {
-      console.log(err);
+      toast.error(err);
     } finally {
       setloading(false);
     }

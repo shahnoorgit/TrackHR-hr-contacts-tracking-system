@@ -66,7 +66,6 @@ const Home = () => {
       setFilter(filtered);
     }
   };
-  console.log(Auth._id);
   return (
     <div className=" flex flex-col justify-center items-start">
       <div className=" flex flex-col gap-2 mt-5 ml-5">

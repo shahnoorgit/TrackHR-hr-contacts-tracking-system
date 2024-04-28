@@ -6,7 +6,6 @@ const useMyContacts = () => {
   const [myContacts, setMyContacts] = useState([]);
   const fetchMyContacts = async (_id) => {
     setLoading(true);
-    console.log("func", _id);
     try {
       const res = await fetch(
         `https://trackhr-backend.onrender.com/api/user/contacts/mycontact/perweek/${_id}`
