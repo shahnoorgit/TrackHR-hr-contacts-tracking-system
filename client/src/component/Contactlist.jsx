@@ -53,14 +53,14 @@ const Contactlist = ({ contact, handleDelete, changeAction }) => {
           }}
           className={` ${
             (action == "pending" && "bg-red-400") ||
-            (action == "done" && "bg-green-500") ||
+            (action == "contacted" && "bg-green-500") ||
             (action == "successful" && "bg-green-900") ||
             (action == "call_not_picked" && " bg-red-600") ||
             (action == "failed" && "bg-red-900")
           } cursor-pointer border bg-gray-900 text-white rounded-md px-2 py-1 sm:w-auto`}
         >
           <option value="pending">Pending</option>
-          <option value="done">Contacted</option>
+          <option value="contacted">Contacted</option>
           <option value="successful">Successful</option>
           <option value="call_not_picked">Call Not Picked</option>
           <option value="failed">Failed</option>

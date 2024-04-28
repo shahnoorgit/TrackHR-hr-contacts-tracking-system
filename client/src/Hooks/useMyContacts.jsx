@@ -6,6 +6,7 @@ const useMyContacts = () => {
   const [myContacts, setMyContacts] = useState([]);
   const fetchMyContacts = async (_id) => {
     setLoading(true);
+    console.log("func", _id);
     try {
       const res = await fetch(
         `http://localhost:8080/api/user/contacts/mycontact/perweek/${_id}`

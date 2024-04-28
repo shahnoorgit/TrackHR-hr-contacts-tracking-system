@@ -15,7 +15,7 @@ const Home = () => {
   const { deleted, deleteContact } = useDelete();
   const { updating, updateAction, update } = useUpdateAction();
 
-  const [useToFilter, setFilter] = useState(myContacts);
+  const [useToFilter, setFilter] = useState([]);
   const [FormData, setFormData] = useState({
     name: "",
     phoneNumber: "",
@@ -53,7 +53,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchMyContacts(Auth?._id).then((data) => setFilter(data));
+    fetchMyContacts(Auth._id).then((data) => setFilter(data));
   }, [load, deleted, update]);
 
   const sort = (e) => {
@@ -66,7 +66,7 @@ const Home = () => {
       setFilter(filtered);
     }
   };
-  console.log(useToFilter);
+  console.log(Auth._id);
   return (
     <div className=" flex flex-col justify-center items-start">
       <div className=" flex flex-col gap-2 mt-5 ml-5">
@@ -102,7 +102,7 @@ const Home = () => {
           {showSortOptions && (
             <div className="absolute w-25 top-full left-0 mt-1  bg-white border rounded-md shadow-lg z-10">
               <button
-                value="done"
+                value="contacted"
                 onClick={(e) => sort(e)}
                 className="btn-dropdown"
               >
@@ -196,7 +196,7 @@ const Home = () => {
             className="cursor-pointer border rounded-md px-2 py-1 sm:w-auto"
           >
             <option value="pending">Pending</option>
-            <option value="done">Contacted</option>
+            <option value="contacted">Contacted</option>
             <option value="successful">Successful</option>
             <option value="call_not_picked">Call Not Picked</option>
             <option value="failed">Failed</option>
