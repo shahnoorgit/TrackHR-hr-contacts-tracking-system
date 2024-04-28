@@ -8,17 +8,20 @@ const useSignup = () => {
   const signup = async ({ username, password, confirmPassword }) => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8080/api/user/sign-up", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-          confirmPassword,
-        }),
-      });
+      const res = await fetch(
+        "https://trackhr-backend.onrender.com/api/user/sign-up",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+            confirmPassword,
+          }),
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast.error(data.error);

@@ -6,7 +6,7 @@ const useDelete = () => {
   const deleteContact = async (id) => {
     try {
       const res = await fetch(
-        "http://localhost:8080/api/user/contacts/delete",
+        "https://trackhr-backend.onrender.com/api/user/contacts/delete",
         {
           method: "POST",
           headers: {

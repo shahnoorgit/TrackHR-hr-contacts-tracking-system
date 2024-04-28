@@ -8,7 +8,7 @@ const useAllContacts = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:8080/api/user/contacts/mycontact/${_id}`
+        `https://trackhr-backend.onrender.com/api/user/contacts/mycontact/${_id}`
       );
       const data = await res.json();
       if (data.error) {

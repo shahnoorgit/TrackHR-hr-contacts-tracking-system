@@ -9,7 +9,7 @@ const useMyContacts = () => {
     console.log("func", _id);
     try {
       const res = await fetch(
-        `http://localhost:8080/api/user/contacts/mycontact/perweek/${_id}`
+        `https://trackhr-backend.onrender.com/api/user/contacts/mycontact/perweek/${_id}`
       );
       const data = await res.json();
       if (data.error) {

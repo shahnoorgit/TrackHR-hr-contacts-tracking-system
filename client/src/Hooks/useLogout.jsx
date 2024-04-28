@@ -8,7 +8,9 @@ const useLogout = () => {
   const logout = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8080/api/user/logout");
+      const res = await fetch(
+        "https://trackhr-backend.onrender.com/api/user/logout"
+      );
       const data = await res.json();
       setAuth(null);
       localStorage.removeItem("UserTrack");

@@ -7,7 +7,7 @@ const useReport = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:8080/api/user/stats/${user_id}`
+        `https://trackhr-backend.onrender.com/api/user/stats/${user_id}`
       );
       const data = await res.json();
       return data;
