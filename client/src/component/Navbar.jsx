@@ -11,14 +11,14 @@ const Navbar = () => {
     logout();
   };
   return (
-    <nav className="flex justify-between p-5 items-center w-full h-20 bg-gray-700 border-blue-700 shadow-2xl border">
+    <nav className="flex justify-between p-5 items-center w-full h-20 bg-gray-700  shadow-2xl">
       <a href="/" className="font-bold text-white text-2xl">
         <span className="text-blue-500">Track</span>
         <span>HR</span>
       </a>
       <a
         href="/my-report"
-        className="font-bold text-xl text-white border p-2 hover:bg-white hover:text-gray-900 border-blue-600"
+        className="font-bold text-xl text-white border p-2 bg-blue-500 rounded-xl hover:scale-105 border-blue-600"
       >
         My Report
       </a>

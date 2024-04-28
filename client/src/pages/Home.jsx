@@ -81,7 +81,7 @@ const Home = () => {
           className="text-white bg-blue-700 shadow-md rounded-md w-full sm:w-[100px] px-2 py-1"
         >
           {" "}
-          See all contacts
+          All contacts
         </a>
         <div className="relative">
           <button className="btn" onClick={toggleSortOptions}>

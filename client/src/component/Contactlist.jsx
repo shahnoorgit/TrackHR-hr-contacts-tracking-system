@@ -18,7 +18,7 @@ const Contactlist = ({ contact, handleDelete, changeAction }) => {
   };
   const date = parseDate(contact?.contactDate);
   return (
-    <div className=" max-sm:mx-2 max-sm:flex-col max-sm:items-start flex gap-1 justify-between items-start border p-3 rounded-lg bg-gray-700 mt-2">
+    <div className=" hover:scale-105 hover:transition-all cursor-pointer shadow-blue-500 shadow-md max-sm:mx-2 max-sm:flex-col max-sm:items-start flex gap-1 justify-between items-start p-3 rounded-lg bg-gray-700 mt-2">
       <div className=" flex justify-center items-center gap-1">
         <FaRegCircleUser className="text-white" />
         <h2 className="text-bold text-white">{contact?.name}</h2>
